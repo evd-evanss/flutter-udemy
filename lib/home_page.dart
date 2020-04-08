@@ -1,3 +1,8 @@
+
+import 'package:aula01/pages/page_one.dart';
+import 'package:aula01/pages/page_two.dart';
+import 'package:aula01/utils/nav.dart';
+import 'package:aula01/widgets/red_button.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -20,7 +25,7 @@ _body(context) {
   Size size = MediaQuery.of(context).size;
   return SingleChildScrollView(
     padding: const EdgeInsets.all(16.0),
-      child: _columm(),
+      child: _columm(context),
   );
 }
 
@@ -47,28 +52,16 @@ _img(path) {
   );
 }
 
-_button(text) {
-  return ButtonTheme(
-    child: RaisedButton(
-      color: Colors.red,
-      child: Text(
-        text,
-        style: TextStyle(color: Colors.white),
-      ),
-      onPressed: () {
-        print("Ok");
-      },
-    ),
-  );
+_button(text, context, Function onPressed) {
+  return RedButton(text, onPressed);
 }
-
-_columm() {
+_columm(context) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: <Widget>[
       _text(),
       _pager_view(),
-      _buttons()
+      _buttons(context)
     ],
   );
 }
@@ -89,12 +82,31 @@ _columm() {
     );
 }
 
- _buttons() {
+ _buttons(context) {
   return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        _button("Anterior"),
-        _button("Proximo")
+        RedButton("Tela 1", () => _onClickNavigator(context, Page_One())),
+        RedButton("Tela 2", () => _onClickNavigator(context, Page_Two()))
       ],
     );
 }
+
+_onClickNavigator(BuildContext context, Widget page) async {
+
+  String text = await push(context, page);
+  print(text);
+
+}
+
+void _showToast(BuildContext context, text) {
+  final scaffold = Scaffold.of(context);
+  scaffold.showSnackBar(
+    SnackBar(
+      content: const Text('Added to favorite'),
+      action: SnackBarAction(
+          label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
+    ),
+  );
+}
+
