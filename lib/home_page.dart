@@ -1,5 +1,6 @@
 
 import 'package:aula01/pages/page_one.dart';
+import 'package:aula01/pages/page_three.dart';
 import 'package:aula01/pages/page_two.dart';
 import 'package:aula01/utils/nav.dart';
 import 'package:aula01/widgets/red_button.dart';
@@ -10,6 +11,14 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.list), onPressed: () => print("icon lista clicado"),
+          ),
+          IconButton(
+            icon: Icon(Icons.home), onPressed: () => print("icon home clicado"),
+          ),
+        ],
         title: Text(
           'Hello Flutter',
           style: TextStyle(color: Colors.black),
@@ -83,13 +92,24 @@ _columm(context) {
 }
 
  _buttons(context) {
-  return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        RedButton("Tela 1", () => _onClickNavigator(context, Page_One())),
-        RedButton("Tela 2", () => _onClickNavigator(context, Page_Two()))
-      ],
-    );
+  return Column(
+    children: <Widget>[
+      Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            RedButton("ListView estático", () => _onClickNavigator(context, PageOne())),
+            RedButton("ListView dinâmico", () => _onClickNavigator(context, PageTwo()))
+          ],
+        ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          RedButton("GridView", () => _onClickNavigator(context, PageThree())),
+          RedButton("Tela X", () => _onClickNavigator(context, PageTwo()))
+        ],
+      )
+    ],
+  );
 }
 
 _onClickNavigator(BuildContext context, Widget page) async {

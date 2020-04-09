@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class Page_One extends StatelessWidget {
+class PageOne extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tela 1"),
+        title: Text("List View Estático"),
       ),
       body: _body(context),
     );
@@ -13,45 +13,27 @@ class Page_One extends StatelessWidget {
 }
 
 _body(context) {
-  return Column(
-    children: <Widget>[
-      Expanded(
-        flex: 1,
-          child: PageView(
-            children: <Widget>[
-              _img("dog_one.jpg"),
-              _img("dog_two.jpg"),
-              _img("dog_three.jpg"),
-              _img("dog_four.jpg"),
-              _img("dog_five.jpg"),
-            ],
-          ),
-      ),
-      Expanded(
-        flex: 3,
-        child: ListView(
-          children: <Widget>[
-            _img("dog_one.jpg"),
-            _img("dog_two.jpg"),
-            _img("dog_three.jpg"),
-            _img("dog_four.jpg"),
-            _img("dog_five.jpg"),
-          ],
-        ),
-      ),
+  List<Image> imgs = [
+    _img("dog_one.jpg"),
+    _img("dog_two.jpg"),
+    _img("dog_three.jpg"),
+    _img("dog_four.jpg"),
+    _img("dog_five.jpg")
+  ];
 
-    ],
+  return ListView(
+    itemExtent: 300,
+    children: imgs,
+
   );
 }
 
 _img(path) {
-  return Container(
-    child: Center(
-      child: Image.asset(
-        "assets/images/$path",
-        width: 300,
-        height: 300,
-      ),
-    ),
+  return Image.asset(
+    "assets/images/$path",
+    width: 300,
+    height: 300,
+    fit: BoxFit.cover,
   );
 }
+

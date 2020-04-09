@@ -2,14 +2,14 @@ import 'package:aula01/utils/Dog.dart';
 import 'package:aula01/widgets/red_button.dart';
 import 'package:flutter/material.dart';
 
-class PageTwo extends StatelessWidget {
+class PageThree extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
         child:  AppBar(
-          title: Text('List View Dinamico', textAlign: TextAlign.center,),
+          title: Text('GridView', textAlign: TextAlign.center,),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(15),
@@ -32,9 +32,9 @@ _body(context) {
   ];
 
   //List View Dinamico
-  return ListView.builder(
+  return GridView.builder(
       itemCount: dogs.length,
-      itemExtent: 300,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
       itemBuilder: (context, index) {
         return Stack(
           fit: StackFit.expand,
