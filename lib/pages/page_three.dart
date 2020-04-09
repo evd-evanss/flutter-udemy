@@ -1,14 +1,26 @@
+import 'package:aula01/pages/dog_details.dart';
 import 'package:aula01/utils/Dog.dart';
-import 'package:aula01/widgets/red_button.dart';
+import 'package:aula01/utils/nav.dart';
 import 'package:flutter/material.dart';
+bool _gridView = true;
 
-class PageThree extends StatelessWidget {
+class PageThree extends StatefulWidget {
+  @override
+  _PageThreeState createState() => _PageThreeState();
+}
+
+class _PageThreeState extends State<PageThree> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
         child:  AppBar(
+          actions: <Widget>[
+            IconButton(icon: Icon(Icons.grid_on), onPressed: () => setState(() => _gridView = true)),
+            IconButton(icon: Icon(Icons.grid_off), onPressed: () => setState(() => _gridView = false)),
+          ],
           title: Text('GridView', textAlign: TextAlign.center,),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
@@ -20,9 +32,15 @@ class PageThree extends StatelessWidget {
       body: _body(context),
     );
   }
+
+}
+
+onChangeStateGridView(state, gridView) {
+  gridView = state;
 }
 
 _body(context) {
+
   List<Dog> dogs = [
     Dog("Jack", "dog_one.jpg"),
     Dog("Susy", "dog_two.jpg"),
@@ -31,19 +49,44 @@ _body(context) {
     Dog("Amora", "dog_five.jpg")
   ];
 
-  //List View Dinamico
+  if(_gridView) {
+    return _buildGridView(context, dogs);
+  } else {
+    return _buildListView(context, dogs);
+  }
+
+}
+
+_buildListView(context, dogs) {
+  return ListView.builder(
+      itemCount: dogs.length,
+      itemExtent: 300,
+      itemBuilder: (context, index) {
+        return _itemView(context, dogs, index);
+      });
+}
+
+_buildGridView(context, dogs) {
   return GridView.builder(
       itemCount: dogs.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
       itemBuilder: (context, index) {
-        return Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            _img(dogs[index].foto),
-            _text(dogs[index].nome)
-          ],
-        );
-  });
+        return _itemView(context, dogs, index);
+      });
+}
+
+_itemView(context, dogs, index) {
+
+  return GestureDetector(
+    onTap: () => push(context, DogDetails(dogs[index])),
+    child: Stack(
+      fit: StackFit.expand,
+      children: <Widget>[
+        _img(dogs[index].foto),
+        _text(dogs[index].nome)
+      ],
+    ),
+  );
 }
 
 _text(nome) {

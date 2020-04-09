@@ -70,7 +70,7 @@ _columm(context) {
     children: <Widget>[
       _text(),
       _pager_view(),
-      _buttons(context)
+      _buttons()
     ],
   );
 }
@@ -91,25 +91,51 @@ _columm(context) {
     );
 }
 
- _buttons(context) {
-  return Column(
-    children: <Widget>[
-      Row(
+ _buttons() {
+  return Builder(builder: (BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            RedButton("ListView estático", () => _onClickNavigator(context, PageOne())),
-            RedButton("ListView dinâmico", () => _onClickNavigator(context, PageTwo()))
+            RedButton("estático", () => _onClickNavigator(context, PageOne())),
+            RedButton("dinâmico", () => _onClickNavigator(context, PageTwo())),
+            RedButton("GridView", () => _onClickNavigator(context, PageThree())),
+
           ],
         ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          RedButton("GridView", () => _onClickNavigator(context, PageThree())),
-          RedButton("Tela X", () => _onClickNavigator(context, PageTwo()))
-        ],
-      )
-    ],
-  );
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            RedButton("SnackBar", () => _showToast(context)),
+            RedButton("Dialog", () => _onClickDialog(context))
+
+          ],
+        )
+      ],
+    );
+  },);
+}
+
+_onClickDialog(context) {
+  showDialog(context: context,  builder: (context) {
+
+    return AlertDialog(
+      title: Text("Flutter é muito legal"),
+      actions: <Widget>[
+        FlatButton(
+          color: Colors.green,
+          child: Text("Desistir"),
+          onPressed: () => Navigator.pop(context),
+        ),
+        FlatButton(
+          color: Colors.red,
+          child: Text("Cancelar"),
+          onPressed: () => Navigator.pop(context),
+        )
+      ],
+    );
+  });
 }
 
 _onClickNavigator(BuildContext context, Widget page) async {
@@ -119,13 +145,15 @@ _onClickNavigator(BuildContext context, Widget page) async {
 
 }
 
-void _showToast(BuildContext context, text) {
+void _showToast(context) {
   final scaffold = Scaffold.of(context);
   scaffold.showSnackBar(
     SnackBar(
-      content: const Text('Added to favorite'),
+      content: const Text("OK"),
       action: SnackBarAction(
-          label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
+        textColor: Colors.yellow,
+          label: 'UNDO',
+          onPressed: scaffold.hideCurrentSnackBar),
     ),
   );
 }
